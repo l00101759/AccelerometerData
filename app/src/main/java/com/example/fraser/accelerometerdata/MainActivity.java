@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView x,y,z, action;
 
-    String dataToWrite = "";
+
+    ImageView image;
 
 
 
@@ -50,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         y = (TextView)findViewById(R.id.yText);
         z = (TextView)findViewById(R.id.zText);
         action = (TextView)findViewById(R.id.txtAction);
+
+        image = (ImageView) findViewById(R.id.imgDirection);
+        image.setVisibility(View.INVISIBLE);
+
     }
 
 
@@ -80,9 +86,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(y1 < -2 && z1 > 2)
         {
             action.setText("Phone Moved Forward!!");
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.forwardarrow);
+        }
+        else if(y1 < -2 && z1 < -2)
+        {
+            action.setText("Phone Moved Toward Face!!");
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.backarrow);
         }
         else
         {
+            image.setVisibility(View.INVISIBLE);
             action.setText("Stable");
         }
 

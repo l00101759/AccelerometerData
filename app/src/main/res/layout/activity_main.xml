@@ -9,15 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.fraser.accelerometerdata.MainActivity">
 
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="X: "
         android:id="@+id/xText"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/btnStart"
         android:layout_marginTop="86dp" />
 
     <TextView
@@ -45,7 +42,16 @@
         android:text="Action: "
         android:id="@+id/txtAction"
         android:layout_below="@+id/zText"
-        android:layout_toEndOf="@+id/writeFile"
         android:layout_marginStart="78dp"
         android:layout_marginTop="51dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgDirection"
+        android:layout_marginTop="67dp"
+        android:src="@drawable/forwardarrow"
+        android:layout_below="@+id/txtAction"
+        android:layout_toEndOf="@+id/txtAction" />
+
 </RelativeLayout>
