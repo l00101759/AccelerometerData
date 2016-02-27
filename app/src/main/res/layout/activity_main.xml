@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgDirection"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="72dp"
         android:src="@drawable/forwardarrow"
         android:layout_below="@+id/txtAction"
         android:layout_toEndOf="@+id/txtAction" />

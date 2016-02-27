@@ -30,11 +30,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private TextView x,y,z, action;
 
-
     ImageView image;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         action = (TextView)findViewById(R.id.txtAction);
 
         image = (ImageView) findViewById(R.id.imgDirection);
-        image.setVisibility(View.INVISIBLE);
+        image.setVisibility(View.GONE);
 
     }
 
@@ -95,13 +91,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.backarrow);
         }
+        else if(y1 < -2 && x1 > 2)//y down, x up = left tilt
+        {
+            action.setText("Phone Titled Left!");
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.leftarrow);
+        }
+        else if(y1 < -2 && x1 < -2)//y down, x down = right tilt
+        {
+            action.setText("Phone Titled Right!");
+            image.setVisibility(View.VISIBLE);
+            image.setImageResource(R.drawable.rightarrow);
+        }
         else
         {
-            image.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.GONE);
             action.setText("Stable");
         }
-
-        //writeFile();
 
     }
 
