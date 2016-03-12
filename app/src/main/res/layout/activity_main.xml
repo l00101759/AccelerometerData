@@ -41,17 +41,43 @@
         android:layout_height="wrap_content"
         android:text="Action: "
         android:id="@+id/txtAction"
+        android:layout_marginStart="73dp"
         android:layout_below="@+id/zText"
-        android:layout_marginStart="78dp"
-        android:layout_marginTop="51dp" />
+        android:layout_toEndOf="@+id/xText" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgDirection"
-        android:layout_marginTop="72dp"
         android:src="@drawable/forwardarrow"
-        android:layout_below="@+id/txtAction"
-        android:layout_toEndOf="@+id/txtAction" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="57dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Device Orientation: "
+        android:id="@+id/txtOrientation"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/txtAction" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:id="@+id/btStart"
+        android:onClick="start"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/imgDirection" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/btStop"
+        android:onClick="stop"
+        android:layout_alignTop="@+id/btStart"
+        android:layout_alignEnd="@+id/imgDirection" />
+
 
 </RelativeLayout>
