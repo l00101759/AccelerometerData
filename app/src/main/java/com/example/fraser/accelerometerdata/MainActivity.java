@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 counter++;
 
                 if(counter > 4){
-                    displayReading();
+                    displayReading();//do it
                 }
 
             }
