@@ -51,8 +51,7 @@
         android:id="@+id/imgDirection"
         android:src="@drawable/forwardarrow"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="57dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,8 +67,9 @@
         android:text="Start"
         android:id="@+id/btStart"
         android:onClick="start"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/imgDirection" />
+        android:layout_above="@+id/openDegree"
+        android:layout_alignEnd="@+id/txtAction"
+        android:layout_marginBottom="44dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +77,24 @@
         android:id="@+id/btStop"
         android:onClick="stop"
         android:layout_alignTop="@+id/btStart"
-        android:layout_alignEnd="@+id/imgDirection" />
+        android:layout_toStartOf="@+id/imgDirection" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Degree Activity"
+        android:id="@+id/openDegree"
+        android:onClick="openDegree"
+        android:layout_above="@+id/imgDirection"
+        android:layout_alignStart="@+id/txtAction"
+        android:layout_marginBottom="42dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wapring Distance: "
+        android:id="@+id/txtWarping"
+        android:layout_below="@+id/txtAction"
+        android:layout_alignStart="@+id/txtAction" />
 
 
 </RelativeLayout>

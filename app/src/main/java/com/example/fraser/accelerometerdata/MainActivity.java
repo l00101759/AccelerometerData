@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float[] gravity = new float[3];
     private float[] linear_acceleration = new float[3];
 
-    private TextView x,y,z, action, txtOrientation;
+    private float[] xValues = new float[20];
+
+    float [] xVals = new float[5];
+    float [] yVals = new float[5];
+    float [] zVals = new float[5];
+
+    float [] storedY = v.getyValues();
+
+
+    int counter  = 0;
+
+    private TextView x,y,z, action, txtOrientation, txtWarping;
 
     ImageView image;
 
@@ -55,12 +67,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         z = (TextView)findViewById(R.id.zText);
         action = (TextView)findViewById(R.id.txtAction);
         txtOrientation = (TextView)findViewById(R.id.txtOrientation);
+        txtWarping = (TextView)findViewById(R.id.txtWarping);
 
         image = (ImageView) findViewById(R.id.imgDirection);
         image.setVisibility(View.GONE);
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            txtOrientation.setText("Device Orientation: Portrait" );
+            txtOrientation.setText("Device Orientation: Portrait");
         }
         else {
             txtOrientation.setText("Device Orientation: NOT PORTRAIT");
@@ -70,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
         final float alpha = (float) 0.8;
 
         // Isolate the force of gravity with the low-pass filter.
@@ -87,20 +99,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         float y1 =  linear_acceleration[1];
         float z1 =  linear_acceleration[2];
 
+        //store gesture when input
+        //storing should begin when user beings to move device
 
-
-        x.setText("X: "+ x1);
+        x.setText("X: " + x1);//x changes
         y.setText("Y: "+ y1);
         z.setText("Z: " + z1);
 
+
         if(y1 < -2 && z1 > 2)
         {
-            start(x1, y1, z1);
-
             action.setText("Phone Moved Forward!!");
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.forwardarrow);
+
+            System.out.println("***********X: " + x1 + " Y: " + y1 + " Z: " + z1);
+
+            if(counter <= 4)
+            {
+                yVals[counter] = y1;
+                counter++;
+
+                if(counter > 4){
+                    displayReading();
+                }
+
+            }
+
+
         }
+
         else if(y1 < -2 && z1 < -2)
         {
             action.setText("Phone Moved Toward Face!!");
@@ -119,13 +147,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.rightarrow);
         }
-        else
-        {
+        else {
             image.setVisibility(View.GONE);
             action.setText("Stable");
         }
 
+
+
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
@@ -148,26 +178,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public void start(float x1, float y1, float z1 )
+    public void openDegree(View view) {
+        Intent intent = new Intent(this, Orientation.class);
+        startActivity(intent);
+    }
+
+    public void clearArray()
     {
-        float[] yValues = {y1};//use one y reading from device
-        float[] zValues = {z1};//use one z reading from device
-
-        float y = v.getY();//get the stored reading of a forward gesture
-        float[] storedYValues = {y};
-
-        float z = v.getZ();//get the stored reading of a forward gesture
-        float[] storedZValues = {z};
-
-        //values.add((new Values(x1, y1, z1)));
-        //System.out.println("****** - X: " + x1 + " Y: " + y1 + " Z: " + z1);
-
-        System.out.println("**** DTW - Y - Reading ===  ");
-        System.out.println(dtw = new DTW(yValues, storedYValues));
-        System.out.println("**** DTW - Z - Reading ===  ");
-        System.out.println(dtw = new DTW(zValues, storedZValues));
+        for(float f : yVals)
+        {
+            f = 0f;
+        }
 
 
+    }
+
+    public void start2(float [] y )
+    {
+        float [] storedY = v.getyValues();
+
+        System.out.println("***********Y Reading Similarity = ******************** =   ");
+        System.out.print(new DTW(y, storedY));
+
+
+    }
+    public void displayReading()
+    {
+        //record the array of values
+        System.out.print("**READING : " + new DTW(yVals, storedY));
+        txtWarping.setText("Warping Distance = " + new DTW(yVals, storedY));
 
     }
     public void stop()
