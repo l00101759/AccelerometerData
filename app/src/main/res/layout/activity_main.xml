@@ -9,31 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.fraser.accelerometerdata.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="X: "
-        android:id="@+id/xText"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="86dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Y: "
-        android:id="@+id/yText"
-        android:layout_below="@+id/xText"
-        android:layout_alignStart="@+id/xText"
-        android:layout_marginTop="34dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Z: "
-        android:id="@+id/zText"
-        android:layout_below="@+id/yText"
-        android:layout_alignStart="@+id/yText"
-        android:layout_marginTop="25dp" />
 
 
     <TextView
@@ -41,9 +17,9 @@
         android:layout_height="wrap_content"
         android:text="Action: "
         android:id="@+id/txtAction"
-        android:layout_marginStart="73dp"
-        android:layout_below="@+id/zText"
-        android:layout_toEndOf="@+id/xText" />
+        android:layout_alignBottom="@+id/txtWarping"
+        android:layout_alignStart="@+id/txtWarping"
+        android:layout_marginBottom="55dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -51,50 +27,35 @@
         android:id="@+id/imgDirection"
         android:src="@drawable/forwardarrow"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Device Orientation: "
-        android:id="@+id/txtOrientation"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/txtAction" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="56dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start"
         android:id="@+id/btStart"
-        android:onClick="start"
-        android:layout_above="@+id/openDegree"
-        android:layout_alignEnd="@+id/txtAction"
-        android:layout_marginBottom="44dp" />
+        android:onClick="startRecording"
+        android:layout_below="@+id/txtWarping"
+        android:layout_toEndOf="@+id/txtWarping"
+        android:layout_marginTop="69dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
         android:id="@+id/btStop"
-        android:onClick="stop"
+        android:onClick="compareValues"
         android:layout_alignTop="@+id/btStart"
-        android:layout_toStartOf="@+id/imgDirection" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Degree Activity"
-        android:id="@+id/openDegree"
-        android:onClick="openDegree"
-        android:layout_above="@+id/imgDirection"
-        android:layout_alignStart="@+id/txtAction"
-        android:layout_marginBottom="42dp" />
+        android:layout_toEndOf="@+id/btStart" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wapring Distance: "
         android:id="@+id/txtWarping"
-        android:layout_below="@+id/txtAction"
-        android:layout_alignStart="@+id/txtAction" />
+        android:layout_marginTop="127dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/imgDirection" />
 
 
 </RelativeLayout>

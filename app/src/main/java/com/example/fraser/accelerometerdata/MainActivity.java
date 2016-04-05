@@ -14,19 +14,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener{
 
     private Sensor mySensor;
     private SensorManager SM;
+
+    FileOperations file =  new FileOperations();
 
     Values v = new Values();
     private static ArrayList <Values> values = new ArrayList<Values>(10000);
@@ -41,10 +47,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float [] yVals = new float[5];
     float [] zVals = new float[5];
 
+    ArrayList <Float> yValList;
+    float[] yValues;
+
+    float [] storedX = v.getxValues();
     float [] storedY = v.getyValues();
+    float [] storedZ = v.getzValues();
+
+    double xDistance, yDistance, zDistance;
 
 
     int counter  = 0;
+    Boolean clickedFlag = false;
 
     private TextView x,y,z, action, txtOrientation, txtWarping;
 
@@ -61,23 +75,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //register sensor to listener
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
-        //hello
-        x = (TextView)findViewById(R.id.xText);
-        y = (TextView)findViewById(R.id.yText);
-        z = (TextView)findViewById(R.id.zText);
         action = (TextView)findViewById(R.id.txtAction);
-        txtOrientation = (TextView)findViewById(R.id.txtOrientation);
         txtWarping = (TextView)findViewById(R.id.txtWarping);
 
         image = (ImageView) findViewById(R.id.imgDirection);
         image.setVisibility(View.GONE);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        /*if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             txtOrientation.setText("Device Orientation: Portrait");
         }
         else {
             txtOrientation.setText("Device Orientation: NOT PORTRAIT");
-        }
+        }*/
+
 
     }
 
@@ -102,60 +112,173 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //store gesture when input
         //storing should begin when user beings to move device
 
-        x.setText("X: " + x1);//x changes
-        y.setText("Y: "+ y1);
-        z.setText("Z: " + z1);
+        if(clickedFlag)
+        {
+            yValList.add(y1);
+            System.out.println(y1);
+        }
 
 
-        if(y1 < -2 && z1 > 2)
+        //stop button will read it
+
+
+
+        /*if(y1 < -2 && z1 > 2)
         {
             action.setText("Phone Moved Forward!!");
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.forwardarrow);
 
-            System.out.println("***********X: " + x1 + " Y: " + y1 + " Z: " + z1);
+            System.out.println("***********READING: " + x1 + " Y: " + y1 + " Z: " + z1);
 
-            if(counter <= 4)
-            {
-                yVals[counter] = y1;
-                counter++;
+            //try something else
+            yValList = new ArrayList<>();//make the array
 
-                if(counter > 4){
-                    displayReading();//do it
-                }
+            //yValList.add(y1);//add it to array list
+            //yValues = new float[yValList.size()];//new each time (important) - diff gesture each time
 
-            }
+            //convert it to float array []
+
+            if(clickedFlag)
+                WriteBtn(""+y1);//write it
+
 
 
         }
 
         else if(y1 < -2 && z1 < -2)
         {
-            action.setText("Phone Moved Toward Face!!");
+           // action.setText("Phone Moved Toward Face!!");
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.backarrow);
         }
         else if(y1 < -2 && x1 > 2)//y down, x up = left tilt
         {
-            action.setText("Phone Titled Left!");
+           // action.setText("Phone Titled Left!");
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.leftarrow);
         }
         else if(y1 < -2 && x1 < -2)//y down, x down = right tilt
         {
-            action.setText("Phone Titled Right!");
+            //action.setText("Phone Titled Right!");
             image.setVisibility(View.VISIBLE);
             image.setImageResource(R.drawable.rightarrow);
         }
         else {
             image.setVisibility(View.GONE);
-            action.setText("Stable");
-        }
+           // action.setText("Stable");
+        }*/
+
+        //if(yValList.size() > 0)//compare values
+        //{
+          //  displayReading();//test float array with stored value
+           // action.setText("Array Size = " + yValList.size());
+        //}
 
 
 
     }
 
+    public void startRecording(View view){
+        yValList =  new ArrayList<>();//new array each time we start recording
+        clickedFlag = true;//will change flag to true, will start recording
+        //change to false when stop clicked
+    }
+
+    public void compareValues(View view){
+        clickedFlag = false;
+
+        for(Float f : yValList)
+        {
+            WriteBtn(""+f);//write it
+        }
+
+
+        System.out.println("Compare Values is running...");
+
+        int i = 0;//counter
+        yValList = ReadBtn();//read it back
+        yValues = new float [] {yValList.size()};
+        action.setText("Array Size = " + yValList.size()); //*****setting it to 1 ?!?!?!?!
+        //convert it to float [] array
+        for (Float f : yValList)
+        {
+            if (f != null)
+                yValues[i++] = (f);
+            //yValues = new float[yValList.size()];//new each time (important) - diff gesture each time
+        }
+
+        displayReading();
+    }
+
+    // write text to file
+    public void WriteBtn(String f) {
+        // add-write text into file
+        try {
+            FileOutputStream fileout=openFileOutput("mytextfile.txt", MODE_PRIVATE);
+            OutputStreamWriter outputWriter=new OutputStreamWriter(fileout);
+            outputWriter.write(f);
+            outputWriter.close();
+
+            //display file saved message**** it displays
+            //Toast.makeText(getBaseContext(), "File saved successfully!",
+             //       Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Read text from file
+    public ArrayList<Float> ReadBtn() {
+        //reading text from file
+        ArrayList<Float> floatVal = new ArrayList<>();
+
+        try {
+            FileInputStream fileIn=openFileInput("mytextfile.txt");
+            InputStreamReader InputRead= new InputStreamReader(fileIn);
+
+            char[] inputBuffer= new char[100000];
+            String s="";
+            int charRead;
+
+
+            while ((charRead=InputRead.read(inputBuffer))>0) {
+                // char to string conversion
+                String readstring=String.copyValueOf(inputBuffer,0,charRead);
+                s +=readstring;
+                //************add each char to the arraylist **********
+                floatVal.add(Float.parseFloat(s));
+            }
+
+            InputRead.close();
+            //.makeText(getBaseContext(), s ,Toast.LENGTH_SHORT).show();
+
+            //action.setText("Value =  " + s);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return floatVal;
+    }
+
+    public void displayReading()//change name
+    {
+        //record the array of values
+        //System.out.print("**READING : " + new DTW(yVals, storedY));
+        dtw = new DTW(yValues, storedY);
+        yDistance = dtw.getDistance();
+        txtWarping.setText("Y-WD =" + yDistance);
+
+        String wd = String.valueOf(yDistance);
+       // Context context = getApplicationContext();
+       // int duration = Toast.LENGTH_SHORT;
+        //Toast toast = Toast.makeText(context, wd, duration);
+       // toast.show();
+
+                //+ "/n Z WD = " + new DTW(zVals, storedZ));
+    }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
@@ -202,13 +325,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     }
-    public void displayReading()
-    {
-        //record the array of values
-        System.out.print("**READING : " + new DTW(yVals, storedY));
-        txtWarping.setText("Warping Distance = " + new DTW(yVals, storedY));
 
-    }
     public void stop()
     {
 
