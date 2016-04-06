@@ -37,17 +37,10 @@
         android:text="Start"
         android:id="@+id/btStart"
         android:onClick="startRecording"
-        android:layout_alignTop="@+id/btStop"
-        android:layout_toStartOf="@+id/btStop" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop"
-        android:id="@+id/btStop"
-        android:onClick="compareValues"
-        android:layout_marginBottom="83dp"
         android:layout_above="@+id/progressBar"
-        android:layout_toEndOf="@+id/txtAction" />
+        android:layout_alignStart="@+id/progressBar"
+        android:layout_marginBottom="84dp" />
+
 
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager SM;
     private ProgressBar spinner;
 
-    FileOperations file =  new FileOperations();
-
     Values v = new Values();
     private static ArrayList <Values> values = new ArrayList<Values>(10000);
     static DTW dtw;
@@ -52,26 +51,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     float [] yVals = new float[5];
     float [] zVals = new float[5];
 
+
     List<Float> xValList;//x
-    float[] floatXValues;
     List<Float> yValList;//y
-    float[] floatYValues;
     List<Float> zValList;//z
-    float[] floatZValues;
+
 
     float [] storedX = v.getxValues();
     float [] storedY = v.getyValues();
     float [] storedZ = v.getzValues();
 
-    double xDistance, yDistance, zDistance, distance;
+    float x1;
+    float y1;
+    float z1;
 
+    double distance;
 
-    int counter  = 0;
     Boolean clickedFlag = false;
 
     private TextView x,y,z, action, txtOrientation, txtWarping;
 
-    ImageView image;
+    CountDownTimer myCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
-
-
-
         action.setText("Gesture detection");
 
         /*if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -103,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         else {
             txtOrientation.setText("Device Orientation: NOT PORTRAIT");
         }*/
-
 
     }
 
@@ -121,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         linear_acceleration[1] = event.values[1] - gravity[1];
         linear_acceleration[2] = event.values[2] - gravity[2];
 
-        float x1 =  linear_acceleration[0];
-        float y1 =  linear_acceleration[1];
-        float z1 =  linear_acceleration[2];
+        x1 =  linear_acceleration[0];
+        y1 =  linear_acceleration[1];
+        z1 =  linear_acceleration[2];
 
         //store gesture when input
         //storing should begin when user beings to move device
@@ -133,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             xValList.add(x1);
             yValList.add(y1);
             zValList.add(z1);
-        //    System.out.println(y1);
             //System.out.println("X: " +x1 + " Y: " +y1 + " Z: " +z1 );
         }
 
@@ -193,25 +188,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
            // action.setText("Array Size = " + yValList.size());
         //}
 
-
-
     }
 
     public void startRecording(View view){
 
-        spinner.setVisibility(View.VISIBLE);
-        action.setText("Waiting for Match..");
-
         xValList =  new ArrayList<>();//new array each time we start recording
         yValList =  new ArrayList<>();//new array each time we start recording
         zValList =  new ArrayList<>();//new array each time we start recording
+        action.setText("Waiting for Match..");
 
-        clickedFlag = true;//will change flag to true, will start recording
-        //change to false when stop clicked
+        myCountDownTimer = new CountDownTimer(3000, 100) {
+            @Override
+            //on tick let values be recorded
+            public void onTick(long millisUntilFinished) {
+                clickedFlag = true;
+                spinner.setVisibility(View.VISIBLE);
+                System.out.println("seconds remaining: " + millisUntilFinished / 1000);
+            }
 
+            @Override
+            //when finished stop recording and hide spinner
+            public void onFinish() {
+                clickedFlag = false;//will change flag to false, will stop recording
+                spinner.setVisibility(View.INVISIBLE);
+                compareValues();
+            }
+        };
+        myCountDownTimer.start();
     }
 
-    public void compareValues(View view)
+    public void compareValues()
     {
         clickedFlag = false;
 
@@ -248,19 +254,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             double zWD =  displayReading(floatZValues, storedZ);
 
             //if it's below 3 then it's a clear match
-            if(xWD < 3 && yWD < 3 && zWD < 3)
+            if (xWD < 3 && yWD < 3 && zWD < 3)
             {
                 action.setText("MATCHED FORWARD");
-                spinner.setVisibility(View.INVISIBLE);
+                //spinner.setVisibility(View.INVISIBLE);
             }
             else{
                 action.setText("No Match..");
-                spinner.setVisibility(View.INVISIBLE);
+               // spinner.setVisibility(View.INVISIBLE);
             }
-
-
-
-
         }
 
     }
