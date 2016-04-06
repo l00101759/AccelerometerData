@@ -17,18 +17,19 @@
         android:layout_height="wrap_content"
         android:text="Action: "
         android:id="@+id/txtAction"
-        android:layout_alignBottom="@+id/txtWarping"
-        android:layout_alignStart="@+id/txtWarping"
-        android:layout_marginBottom="55dp" />
+        android:layout_marginTop="75dp"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignStart="@+id/progressBar" />
 
-    <ImageView
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imgDirection"
-        android:src="@drawable/forwardarrow"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp" />
+        android:id="@+id/progressBar"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="120dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,26 +37,17 @@
         android:text="Start"
         android:id="@+id/btStart"
         android:onClick="startRecording"
-        android:layout_below="@+id/txtWarping"
-        android:layout_toEndOf="@+id/txtWarping"
-        android:layout_marginTop="69dp" />
+        android:layout_alignTop="@+id/btStop"
+        android:layout_toStartOf="@+id/btStop" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Stop"
         android:id="@+id/btStop"
         android:onClick="compareValues"
-        android:layout_alignTop="@+id/btStart"
-        android:layout_toEndOf="@+id/btStart" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wapring Distance: "
-        android:id="@+id/txtWarping"
-        android:layout_marginTop="127dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/imgDirection" />
+        android:layout_marginBottom="83dp"
+        android:layout_above="@+id/progressBar"
+        android:layout_toEndOf="@+id/txtAction" />
 
 
 </RelativeLayout>
