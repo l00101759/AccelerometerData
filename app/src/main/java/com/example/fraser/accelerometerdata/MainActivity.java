@@ -80,10 +80,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //create sensor manager
         SM = (SensorManager)getSystemService(SENSOR_SERVICE);
-        //acceleremoter
+        //accelerometer
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //register sensor to listener
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+
         action = (TextView)findViewById(R.id.txtAction);
         txtTimer = (TextView)findViewById(R.id.txtTimer);
 
@@ -94,15 +95,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         spinner.setVisibility(View.GONE);
         action.setText("Gesture detection");
 
-        /*if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            txtOrientation.setText("Device Orientation: Portrait");
-        }
-        else {
-            txtOrientation.setText("Device Orientation: NOT PORTRAIT");
-        }*/
+        //warning timer - alerts user when gesture recording will begin
+        //5 seconds
         myCountDownTimer = new CountDownTimer(5000, 100) {
             @Override
             //on tick let values be recorded
+            //tell
             public void onTick(long millisUntilFinished) {
                 System.out.println("seconds remaining: " + millisUntilFinished / 1000);
                 txtTimer.setText("Recording Gesture in " + millisUntilFinished / 1000);
@@ -143,6 +141,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if(clickedFlag)
         {
+            v.displayGestures();
+
             xValList.add(x1);
             yValList.add(y1);
             zValList.add(z1);
@@ -234,9 +234,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         myCountDownTimer.start();
     }
 
+
     public void compareValues()
     {
         clickedFlag = false;
+        //get all stored gestures
+        ArrayList<Values> allGestures  = v.getStored();
 
         if(yValList.size() > 0)
         {
@@ -265,7 +268,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 if (f != null)
                     floatZValues[k++] = (f);
             }
+
+            //compare input gesture with all stored gestures
             //get warping distance values for each axis
+            double xWD;
+            double yWD;
+            double zWD;
+
+                for(Values v : allGestures)
+                {
+                    float [] testX = v.getxVals();
+                    float [] testY = v.getyVals();
+                    float [] testZ = v.getzVals();
+
+                    xWD = displayReading(testX, floatXValues);
+                    zWD = displayReading(testY, floatYValues);
+                    yWD = displayReading(testZ, floatZValues);
+
+                    System.out.println("WD = " + xWD +" " +yWD +" " +yWD);
+
+                    if (xWD < 1 && yWD < 1 && zWD < 1)
+                    {
+                        action.setText("MATCHED - " +v.getName()+" gesture!");
+                        //flag = false;
+                        //spinner.setVisibility(View.INVISIBLE);
+                    }
+                    //else
+                    //action.setText("No Match..");
+                }
+
+
+
+
+            /*//get warping distance values for each axis
             double xWD = displayReading(floatXValues, storedX);
             double yWD =  displayReading(floatYValues, storedY);
             double zWD =  displayReading(floatZValues, storedZ);
@@ -279,8 +314,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             else{
                 action.setText("No Match..");
                // spinner.setVisibility(View.INVISIBLE);
-            }
+            }*/
+
         }
+
+
 
     }
     public double displayReading(float [] listIn, float [] storedGesture)//change name
@@ -322,9 +360,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent intent = new Intent(this, Orientation.class);
         startActivity(intent);
     }
+    public void repeatRecord(View view) {
+        startRecording();
+    }
 
     public void openVoice(View view) {
         Intent intent = new Intent(this, GestureRecognised.class);
+        startActivity(intent);
+    }
+    public void openRecord(View view) {
+        Intent intent = new Intent(this, RecordGesture.class);
         startActivity(intent);
     }
 

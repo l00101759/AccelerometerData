@@ -5,4 +5,5 @@
     <string name="title_activity_compass2">CompassActivity2</string>
     <string name="title_activity_orientation">OrientationActivity</string>
     <string name="title_activity_gesture_recognised">GestureRecognised</string>
+    <string name="title_activity_record_gesture">RecordGesture</string>
 </resources>

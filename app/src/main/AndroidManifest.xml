@@ -72,6 +72,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fraser.accelerometerdata.MainActivity" />
         </activity>
+        <activity
+            android:name=".RecordGesture"
+            android:label="@string/title_activity_record_gesture"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fraser.accelerometerdata.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

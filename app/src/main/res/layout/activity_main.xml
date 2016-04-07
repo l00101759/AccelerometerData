@@ -52,5 +52,25 @@
         android:layout_above="@+id/progressBar"
         android:layout_alignEnd="@+id/progressBar" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        android:onClick="openRecord"
+        android:id="@+id/btnRecordGesture"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btnVoice" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try Again"
+        android:onClick="repeatRecord"
+        android:id="@+id/btnTryAgain"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/txtAction" />
+
 
 </RelativeLayout>
