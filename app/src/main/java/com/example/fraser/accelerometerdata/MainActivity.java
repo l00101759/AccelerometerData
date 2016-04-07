@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     Boolean clickedFlag = false;
 
-    private TextView x,y,z, action, txtOrientation, txtWarping;
+    private TextView x,y,z, action, txtTimer;
 
     CountDownTimer myCountDownTimer;
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //register sensor to listener
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
         action = (TextView)findViewById(R.id.txtAction);
-        //txtWarping = (TextView)findViewById(R.id.txtWarping);
+        txtTimer = (TextView)findViewById(R.id.txtTimer);
 
         //image = (ImageView) findViewById(R.id.imgDirection);
         //image.setVisibility(View.GONE);
@@ -100,6 +100,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         else {
             txtOrientation.setText("Device Orientation: NOT PORTRAIT");
         }*/
+        myCountDownTimer = new CountDownTimer(5000, 100) {
+            @Override
+            //on tick let values be recorded
+            public void onTick(long millisUntilFinished) {
+                System.out.println("seconds remaining: " + millisUntilFinished / 1000);
+                txtTimer.setText("Recording Gesture in " + millisUntilFinished / 1000);
+            }
+
+            @Override
+            //when finished stop recording and hide spinner
+            public void onFinish() {
+                txtTimer.setText("");
+                startRecording();
+            }
+        };
+        myCountDownTimer.start();
+
 
     }
 
@@ -190,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    public void startRecording(View view){
+    public void startRecording(){
 
         xValList =  new ArrayList<>();//new array each time we start recording
         yValList =  new ArrayList<>();//new array each time we start recording
@@ -305,5 +322,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent intent = new Intent(this, Orientation.class);
         startActivity(intent);
     }
+
+    public void openVoice(View view) {
+        Intent intent = new Intent(this, GestureRecognised.class);
+        startActivity(intent);
+    }
+
 
 }
