@@ -81,7 +81,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LogIn" />
         </activity>
-        <activity android:name=".MainActivity1"></activity>
+        <activity android:name=".GestureRecognition"></activity>
         <activity android:name=".SpeechRecognised"></activity>
     </application>
 

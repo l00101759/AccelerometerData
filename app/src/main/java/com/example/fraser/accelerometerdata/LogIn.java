@@ -31,6 +31,7 @@ public class LogIn extends AppCompatActivity  {
             password.setText("");
             openRecord();
         }
+        //if normal user logs in
         if(username.getText().toString().equals("101") &&password.getText().toString().equals("101"))
         {
             //just random user
@@ -50,7 +51,7 @@ public class LogIn extends AppCompatActivity  {
         startActivity(intent);
     }
     public void openMain() {
-        Intent intent = new Intent(this, MainActivity1.class);
+        Intent intent = new Intent(this, SpeechTester.class);
         startActivity(intent);
     }
 

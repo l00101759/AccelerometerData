@@ -17,10 +17,10 @@
         android:layout_height="wrap_content"
         android:text="Action: "
         android:id="@+id/txtAction"
-        android:layout_marginTop="79dp"
-        android:layout_below="@+id/progressBar"
+        android:layout_marginStart="37dp"
+        android:layout_below="@+id/listViewGestures"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="58dp" />
+        android:layout_marginTop="71dp" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
@@ -48,9 +48,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Recording in: "
         android:id="@+id/txtTimer"
-        android:layout_marginBottom="94dp"
-        android:layout_above="@+id/progressBar"
-        android:layout_alignEnd="@+id/progressBar" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/btnTryAgain" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -71,6 +70,14 @@
         android:id="@+id/btnTryAgain"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/txtAction" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewGestures"
+        android:layout_below="@+id/txtTimer"
+        android:layout_alignEnd="@+id/btnVoice"
+        android:layout_alignBottom="@+id/progressBar" />
 
 
 </RelativeLayout>
