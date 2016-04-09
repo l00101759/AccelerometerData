@@ -42,7 +42,7 @@ public class LogIn extends AppCompatActivity  {
         else
         {
             username.setText("");
-            password.setText("");
+            password.setText(""+"");
         }
     }
 
