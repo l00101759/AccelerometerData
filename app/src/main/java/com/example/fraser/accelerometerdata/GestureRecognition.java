@@ -227,7 +227,7 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
                 if (avg <= 1)
                 {
                     action.setText("MATCHED - " +v.getName()+" gesture!");
-                    gestureName = v.getName();
+                    gestureName = v.getName();//get the gesture name
                     //flag = false;
                     //spinner.setVisibility(View.INVISIBLE);
                 }
@@ -241,12 +241,13 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
                 }
                 else if(gestureName.equalsIgnoreCase("right"))
                 {
-                    goNext(2);
+                    goNext(1);
                 }
                 else if(gestureName.equalsIgnoreCase("left"))
                 {
-                    goNext(3);
+                    goNext(2);
                 }
+
             }
 
             /*//get warping distance values for each axis
@@ -323,12 +324,9 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
     }
     public void goNext(int index) {
         Intent intent = new Intent(this, SpeechRecognised.class);
-
-        intent.putExtra(EXTRA_MESSAGE, index);
+        intent.putExtra("index", index);
         startActivity(intent);
 
-        //intent.putExtra(EXTRA_MESSAGE, wordToSend);
-        //startActivity(intent);
     }
 
 }

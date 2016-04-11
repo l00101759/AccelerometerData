@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +24,16 @@ public class SpeechTester extends AppCompatActivity {
     private TextView word;
     private TextToSpeech t1;
 
+    ListView listView;
+    ArrayAdapter adapter;
+
     String wordSpoken = "";
     //array of possible words that the application will recongise
-    String [] possibleWords = {"balance", "new balance", "transactions" , "customer support"};
+    String [] menuOptions = {"1. Balance", "2. Transactions" , "3. Customer support", "4. Exit"};
+    String [] possibleWords = {"balance", "transactions" , "customer support", "exit"};
 
-    public final static String EXTRA_MESSAGE = "com.example.fraser.messageToActivity";
+    //for sending/receiving message to activity
+    //public final static String EXTRA_MESSAGE = "com.example.fraser.messageToActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,11 @@ public class SpeechTester extends AppCompatActivity {
         setContentView(R.layout.activity_speech_tester);
         word = (TextView)findViewById(R.id.txtWord);
         speak=(Button)findViewById(R.id.button);
+
+        //create the list view for the menu
+        adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, menuOptions);
+        listView = (ListView) findViewById(R.id.listViewMenu);
+        listView.setAdapter(adapter);
 
         t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -81,6 +93,7 @@ public class SpeechTester extends AppCompatActivity {
             wordSpoken = thingsYouSaid.get(0);
 
             wordSpoken = wordSpoken.toLowerCase();
+            int index = -1;
 
             //!!!!!!if the word is not correct then allow user to input motion!!!
             for(int i = 0; i<possibleWords.length; i++)
@@ -89,7 +102,7 @@ public class SpeechTester extends AppCompatActivity {
                 {
                     flag = true;
                     //get index
-                    //goNext();
+                   // index = i;
                     goNext(i);
                 }
                 if(wordSpoken.equals("exit"))
@@ -103,12 +116,8 @@ public class SpeechTester extends AppCompatActivity {
                 goGestureRecog();
             }
         }
-
         //so if the word they said isnt reconginsed
         //take them to the gesture recognition activity
-
-
-
     }
 
     public void goToLogin() {
@@ -120,16 +129,16 @@ public class SpeechTester extends AppCompatActivity {
         startActivity(intent);
     }
     public void goNext(int index) {
-        Intent intent = new Intent(this, SpeechRecognised.class);
+       // Intent intent = new Intent(this, SpeechRecognised.class);
 
         //TextView word = (TextView)findViewById(R.id.txtWord);
         //String wordToSend = word.getText().toString();
-        System.out.println("*****Word to send = "  +wordSpoken);
+        //System.out.println("*****Word to send = "  +wordSpoken);
 
-        intent.putExtra(EXTRA_MESSAGE, index);
-        startActivity(intent);
-
-        //intent.putExtra(EXTRA_MESSAGE, wordToSend);
+        //intent.putExtra(EXTRA_MESSAGE, index);
         //startActivity(intent);
+        Intent intent = new Intent(this, SpeechRecognised.class);
+        intent.putExtra("index", index);
+        startActivity(intent);
     }
 }

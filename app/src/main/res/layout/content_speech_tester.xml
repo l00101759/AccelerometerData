@@ -18,62 +18,17 @@
         android:text="Listen"
         android:id="@+id/btnSpeak"
         android:onClick="listen"
-        android:layout_marginBottom="45dp"
         android:layout_above="@+id/txtWord"
-        android:layout_alignEnd="@+id/textView2" />
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginEnd="31dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You said :"
         android:id="@+id/txtWord"
-        android:layout_marginBottom="127dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView3" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Balance"
-        android:id="@+id/textView"
-        style="@style/Base.TextAppearance.AppCompat.Menu"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="51dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Transactions"
-        android:id="@+id/textView2"
-        style="@style/Base.TextAppearance.AppCompat.Menu"
-        android:layout_above="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Customer Support"
-        android:id="@+id/textView3"
-        style="@style/Base.TextAppearance.AppCompat.Menu"
-        android:layout_above="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="51dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Exit"
-        android:id="@+id/textView4"
-        style="@style/Base.TextAppearance.AppCompat.Menu"
-        android:layout_marginBottom="38dp"
-        android:layout_above="@+id/btnSpeak"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="84dp"
+        android:layout_alignParentBottom="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,8 +44,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Speak"
-        android:layout_alignBottom="@+id/btnSpeak"
-        android:layout_toStartOf="@+id/textView2"
-        android:id="@+id/button" />
+        android:id="@+id/button"
+        android:layout_marginEnd="120dp"
+        android:layout_alignTop="@+id/btnSpeak"
+        android:layout_alignEnd="@+id/listViewMenu" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewMenu"
+        android:layout_alignStart="@+id/txtWord"
+        android:layout_above="@+id/btnSpeak"
+        android:layout_below="@+id/textView5"
+        android:paddingTop="5dp" />
 
 </RelativeLayout>

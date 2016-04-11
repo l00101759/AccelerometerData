@@ -24,8 +24,12 @@ public class SpeechRecognised extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speech_recognised);
 
-        Intent intent = getIntent();
-        int message = intent.getIntExtra(SpeechTester.EXTRA_MESSAGE, 0);
+        //Intent intent = getIntent();
+        //int message = intent.getIntExtra(SpeechTester.EXTRA_MESSAGE, 0);
+
+        Intent mIntent = getIntent();
+        int message = mIntent.getIntExtra("index", 0);
+
 
         title = (TextView)findViewById(R.id.txtTitle);
         title.setText("");
@@ -43,25 +47,21 @@ public class SpeechRecognised extends AppCompatActivity {
     private void displayAnswer(int ans)
     {
         switch(ans){
-            case 1 :    title.setText("Your Balance");
+            case 1 :    title.setText(ans +". Your Balance ");
                         //answer.setText("€100.0");
                         adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, balance);
                         listView = (ListView) findViewById(R.id.listView);
                         listView.setAdapter(adapter);
                         break;
             case 2 :
-                        title.setText("Updated Balance");
-                        answer.setText("Balance = 15500.0");
-                        break;
-            case 3 :
-                        title.setText("Recent Transactions");
+                        title.setText(ans + ". Recent Transactions ");
                         //answer.setText("Paypal = 150.0 \n Centra 20.50");
                         adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, transactions);
                         listView = (ListView) findViewById(R.id.listView);
                         listView.setAdapter(adapter);
                         break;
-            case 4 :
-                        title.setText("Customer Support");
+            case 3 :
+                        title.setText(ans +". Customer Support ");
                         //answer.setText("Opening hours = 8am - 5pm \n Call: 1800 123 123");
                         adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, support);
                         listView = (ListView) findViewById(R.id.listView);

@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".GestureRecognition">
+    tools:context=".GestureRecognition"
+    android:background="#a3d8cf">
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,19 +32,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberPassword"
-        android:ems="10"
+        android:ems="4"
         android:id="@+id/editText"
+        android:background="#ffffff"
         android:layout_alignBottom="@+id/txtPassword"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignStart="@+id/editText2" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:ems="10"
+        android:ems="4"
         android:id="@+id/editText2"
-        android:layout_above="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:background="#ffffff"
+        android:layout_above="@+id/txtPassword"
+        android:layout_centerHorizontal="true"
+        android:text="Username" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -61,7 +65,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Log in"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="43dp"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/txtLogin" />
+        android:layout_alignStart="@+id/editText2"
+        android:id="@+id/textView6" />
+
 </RelativeLayout>
