@@ -40,7 +40,7 @@ public class SpeechTester extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speech_tester);
         word = (TextView)findViewById(R.id.txtWord);
-        speak=(Button)findViewById(R.id.button);
+        //speak=(Button)findViewById(R.id.button);
 
         //create the list view for the menu
         adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, menuOptions);
@@ -56,7 +56,7 @@ public class SpeechTester extends AppCompatActivity {
             }
         });
 
-        speak.setOnClickListener(new View.OnClickListener() {
+        /*speak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -64,7 +64,7 @@ public class SpeechTester extends AppCompatActivity {
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, "");
                 //t1.playSilentUtterance(1000, TextToSpeech.QUEUE_FLUSH, null);
             }
-        });
+        });*/
 
 
     }

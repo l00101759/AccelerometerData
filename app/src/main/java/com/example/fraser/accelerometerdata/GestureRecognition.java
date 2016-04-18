@@ -1,5 +1,6 @@
 package com.example.fraser.accelerometerdata;
 
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,6 +211,10 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
             double yWD;
             double zWD;
 
+            Context context = getApplicationContext();
+            CharSequence text = "";
+            int duration = Toast.LENGTH_SHORT;
+
             for(Values v : allGestures)
             {
                 float [] testX = v.getxVals();
@@ -224,6 +230,9 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
                 String gestureName = "";
                 System.out.println("WD = " + xWD +" " +yWD +" " +yWD);
                 //xWD < 1.0f && yWD < 1.0f && zWD < 1.0f
+                //show Toast telling user that 'gesture' has been stored
+                text = "Warping Distance = " + avg;
+
                 if (avg <= 1)
                 {
                     action.setText("MATCHED - " +v.getName()+" gesture!");
@@ -249,7 +258,8 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
                 }
 
             }
-
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
             /*//get warping distance values for each axis
             double xWD = displayReading(floatXValues, storedX);
             double yWD =  displayReading(floatYValues, storedY);

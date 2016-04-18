@@ -1,6 +1,7 @@
 package com.example.fraser.accelerometerdata;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +114,15 @@ public class RecordGesture extends AppCompatActivity  implements SensorEventList
                 spinner.setVisibility(View.INVISIBLE);
                // convertArray();//convert them to float []
                 storeGesture();//store the gesture with the name
+                //show Toast telling user that 'gesture' has been stored
+                Context context = getApplicationContext();
+                String customGesture = gestName.getText().toString();
+                CharSequence text = "Gesture '" +customGesture +"' Recorded!";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                //set back to blank
+                gestName.setText("");
             }
         };
         myCountDownTimer.start();
