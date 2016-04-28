@@ -24,39 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CompassActivity"
-            android:label="@string/title_activity_compass"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CompassActivity2"
-            android:label="@string/title_activity_compass2"
-            android:parentActivityName=".LogIn"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LogIn" />
-        </activity>
-        <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
-            android:parentActivityName=".LogIn"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LogIn" />
-        </activity>
-        <activity
-            android:name=".OrientationActivity"
-            android:label="@string/title_activity_orientation"
-            android:parentActivityName=".LogIn"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LogIn" />
-        </activity>
-        <activity
-            android:name=".Orientation"
-            android:label="@string/title_activity_orientation"
             android:parentActivityName=".LogIn"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

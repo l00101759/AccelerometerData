@@ -11,6 +11,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
     Boolean clickedFlag = false;
 
     private TextView x,y,z, action, txtTimer;
+    CheckBox checkBox;
 
     CountDownTimer myCountDownTimer;
     ListView listView;
@@ -78,6 +80,7 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
 
         action = (TextView)findViewById(R.id.txtAction);
         txtTimer = (TextView)findViewById(R.id.txtTimer);
+       // checkBox = (CheckBox)findViewById(R.id.checkBox);
 
         //image = (ImageView) findViewById(R.id.imgDirection);
         //image.setVisibility(View.GONE);
@@ -86,10 +89,12 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
         spinner.setVisibility(View.GONE);
         action.setText("Gesture detection");
 
+
         //warning timer - alerts user when gesture recording will begin
         //5 seconds
         adapter = new ArrayAdapter<String>(this, R.layout.activity_listview, gestures);
 
+        //training option
         myCountDownTimer = new CountDownTimer(10000, 100) {
             @Override
             //on tick let values be recorded
@@ -110,6 +115,8 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
             }
         };
         myCountDownTimer.start();
+
+
     }
 
     @Override
@@ -167,6 +174,7 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
         };
         myCountDownTimer.start();
     }
+
     public void test()
     {
 
@@ -178,29 +186,25 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
         //get all stored gestures
         ArrayList<Values> allGestures  = v.getStored();
 
-        if(yValList.size() > 0)
-        {
+        if(yValList.size() > 0) {
             // int i = 0;//counter
             // yValues = new float [] {yValList.size() - 1};
             //action.setText("Array Size = " + yValList.size()); //*****setting it to 1 ?!?!?!?!
             int i = 0;
-            float [] floatXValues = new float [xValList.size()];
-            for (Float f : xValList)
-            {
+            float[] floatXValues = new float[xValList.size()];
+            for (Float f : xValList) {
                 if (f != null)
                     floatXValues[i++] = (f);
             }
             int j = 0;
-            float [] floatYValues = new float [yValList.size()];
-            for (Float f : yValList)
-            {
+            float[] floatYValues = new float[yValList.size()];
+            for (Float f : yValList) {
                 if (f != null)
                     floatYValues[j++] = (f);
             }
             int k = 0;
-            float [] floatZValues = new float [zValList.size()];
-            for (Float f : zValList)
-            {
+            float[] floatZValues = new float[zValList.size()];
+            for (Float f : zValList) {
                 if (f != null)
                     floatZValues[k++] = (f);
             }
@@ -212,14 +216,13 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
             double zWD;
 
             Context context = getApplicationContext();
-            CharSequence text = "";
+            CharSequence text = "0.0";
             int duration = Toast.LENGTH_SHORT;
 
-            for(Values v : allGestures)
-            {
-                float [] testX = v.getxVals();
-                float [] testY = v.getyVals();
-                float [] testZ = v.getzVals();
+            for (Values v : allGestures) {
+                float[] testX = v.getxVals();
+                float[] testY = v.getyVals();
+                float[] testZ = v.getzVals();
 
                 xWD = displayReading(testX, floatXValues);
                 zWD = displayReading(testY, floatYValues);
@@ -228,57 +231,33 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
                 //get avg
                 double avg = (xWD + yWD + zWD) / 3;
                 String gestureName = "";
-                System.out.println("WD = " + xWD +" " +yWD +" " +yWD);
+                System.out.println("WD = " + xWD + " " + yWD + " " + yWD);
                 //xWD < 1.0f && yWD < 1.0f && zWD < 1.0f
                 //show Toast telling user that 'gesture' has been stored
-                text = "Warping Distance = " + avg;
-
-                if (avg <= 1)
+                if (avg <= 2)//keep at 1
                 {
-                    action.setText("MATCHED - " +v.getName()+" gesture!");
+                    action.setText("MATCHED - " + v.getName() + " gesture!");
                     gestureName = v.getName();//get the gesture name
+                    text = gestureName + " WD = " + avg;
                     //flag = false;
                     //spinner.setVisibility(View.INVISIBLE);
-                }
-                else
-                   System.out.println("No Match..");
+                } else
+                    System.out.println("No Match..");
 
                 //send user to their query
-                if(gestureName.equalsIgnoreCase("forward"))
-                {
+                if (gestureName.equalsIgnoreCase("forward")) {
                     goNext(0);
-                }
-                else if(gestureName.equalsIgnoreCase("right"))
-                {
+                } else if (gestureName.equalsIgnoreCase("right")) {
                     goNext(1);
-                }
-                else if(gestureName.equalsIgnoreCase("left"))
-                {
+                } else if (gestureName.equalsIgnoreCase("left")) {
                     goNext(2);
                 }
 
             }
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            /*//get warping distance values for each axis
-            double xWD = displayReading(floatXValues, storedX);
-            double yWD =  displayReading(floatYValues, storedY);
-            double zWD =  displayReading(floatZValues, storedZ);
-
-            //if it's below 3 then it's a clear match
-            if (xWD < 3 && yWD < 3 && zWD < 3)
-            {
-                action.setText("MATCHED FORWARD");
-                //spinner.setVisibility(View.INVISIBLE);
-            }
-            else{
-                action.setText("No Match..");
-               // spinner.setVisibility(View.INVISIBLE);
-            }*/
 
         }
-
-
 
     }
     public double displayReading(float [] listIn, float [] storedGesture)//change name
@@ -308,17 +287,6 @@ public class GestureRecognition extends AppCompatActivity implements SensorEvent
     protected void onResume() {
         super.onResume();
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    protected void compassOpen(View view)
-    {
-        Intent intent = new Intent(this, CompassActivity2.class);
-
-    }
-
-    public void openDegree(View view) {
-        Intent intent = new Intent(this, Orientation.class);
-        startActivity(intent);
     }
     public void repeatRecord(View view) {
         startRecording();

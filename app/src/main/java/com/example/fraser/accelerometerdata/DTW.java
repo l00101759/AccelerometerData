@@ -1,14 +1,6 @@
 package com.example.fraser.accelerometerdata;
 
 /**
- * Created by Fraser on 08/03/2016.
- */
-/*
- * DTW.java
- */
-
-
-/**
  * This class implements the Dynamic Time Warping algorithm
  * given two sequences
  * <pre>
@@ -26,7 +18,7 @@ public class DTW {
     protected int[][] warpingPath;
 
     //int[][][] threeDimArr = new int[4][5][6];
-    int[][][] threeDimArr = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+    //int[][][] threeDimArr = { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
 
 
     protected int n;
@@ -198,16 +190,7 @@ public class DTW {
 
         float[] n2 = {1, 2, 3};
         float[] n1 = {1 , 2, 3};
-
-
-        //float[] n2 = {1, 2, 3};
-        //float[] n1 = {5 , 4, 4, 7};
-
-
-        //float[] n2 = {1, 2, 3};
-        //float[] n1 = {9 , 14, 11, 6};
-
-
+        
         DTW dtw = new DTW(n1, n2);
         System.out.println("Answer = " +dtw);
     }
